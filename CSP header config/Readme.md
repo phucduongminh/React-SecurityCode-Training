@@ -18,3 +18,9 @@ The default-src directive can be used to set a baseline. This is the directive t
 
 Add the content attribute;
 Give it the value default-src, followed by 'self';
+
+### Allow 3rd party script
+The CSP header uses directives to further fine-grain the allowed sources. To indicate which other scripts are allowed, use the script-src directive.
+
+Task
+Allow scripts from both your own domain and https://api.thirdparty.example to be loaded. (Remember to separate the directives with ;)
