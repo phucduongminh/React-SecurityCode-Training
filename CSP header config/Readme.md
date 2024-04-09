@@ -24,3 +24,25 @@ The CSP header uses directives to further fine-grain the allowed sources. To ind
 
 Task
 Allow scripts from both your own domain and https://api.thirdparty.example to be loaded. (Remember to separate the directives with ;)
+
+### Allow React inline styles
+When using a React component library, a lot of the styling is done inline. In general, it's recommended to avoid allowing the unsafe-inline styling option. A more secure solution is to use a nonce, a randomly-generated cryptographic value that changes for each request. By having the nonce present in the CSP header and attaching it to all style tags, the browser can prevent loading sources that don't match the nonce.
+
+There's no API present in this lab. We'll be using __GENERATED_NONCE__ as a placeholder value. The host serving the webpage can replace this with a randomly-generated nonce on each request.
+
+Task 1
+Add a style-src directive in the CSP header;
+Allow all styles coming from self or that match the __GENERATED_NONCE__. Keep in mind that a nonce directive value is prefixed by nonce-.
+
+Task 2
+When using a component library, the nonce should be included in the style tags added by the library. The BoatInsurances application uses the MUI component library (but this code will be different for other component libraries). MUI uses a CacheProvider to add the nonce to its components.
+
+In Wrapper.tsx:
+
+Import createCache from '@emotion/cache';
+Call createCache with an object that has:
+a nonce, with the __GENERATED_NONCE__ string as its value.
+a key with "boatinsurances" as its value.
+Task 3
+Wrap the <App /> component in a <CacheProvider>
+Assign the result of the createCache call to the CacheProvider value attribute.
