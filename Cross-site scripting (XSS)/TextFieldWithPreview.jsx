@@ -1,17 +1,15 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { TextField } from "@mui/material";
 import debounce from "lodash.debounce";
-
+import DOMPurify from "isomorphic-dompurify";
 
 export default function TextFieldWithPreview ({name, label, onInputChange}) {
-    const renderPreview = (text) => {
-        const previewContent = document.getElementById("preview");
-        if (previewContent) previewContent.innerHTML = text;
-    }
+    const [preview, setPreview] = useState('')
+    const clean = DOMPurify.sanitize(preview);
 
     const debounceInput = useMemo(
         () => debounce(({ target: { value } }) => {
-            renderPreview(value);
+            setPreview(value);
             onInputChange(value);
         }, 500), []
     );
@@ -33,7 +31,7 @@ export default function TextFieldWithPreview ({name, label, onInputChange}) {
                 maxRows={6}
             />
             <label>Preview:</label>
-            <div id="preview"></div>
+            <div dangerouslySetInnerHTML={{__html: clean}} id="preview"/>
         </div>
     );
 }
