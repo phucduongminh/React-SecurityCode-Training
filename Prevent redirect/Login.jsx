@@ -2,11 +2,13 @@ import React, {useState} from 'react';
 import {Button, Typography, TextField, Box, Paper} from '@mui/material'
 import '../auth/auth.css'
 import auth_service from '../auth/auth-service'
+import { useNavigate } from 'react-router-dom';
 
 
 export default function Login() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const navigate = useNavigate()
 
     const onSetEmail = (e) => {
         setEmail(e.target.value)
@@ -23,8 +25,7 @@ export default function Login() {
             localStorage.setItem("token", token);
             auth_service.setAuthToken(token)
 
-            const redirectTo = new URL(window.location.search).searchParams.get('redirectTo')
-            window.location.assign(redirectTo)
+            navigate('/profile')
         }).catch((error) => {
             console.log("invalid credentials")
         })
