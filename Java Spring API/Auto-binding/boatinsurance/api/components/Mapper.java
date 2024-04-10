@@ -1,0 +1,1 @@
+package boatinsurance.api.components;
